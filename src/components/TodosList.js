@@ -62,7 +62,7 @@ class TodosList extends Component {
 
 function mapStateToProps(state) {
     return {
-        todos: state ? state.todos : ['state is dead'],
+        todos: state.todos,
         isFetching: state.isFetching
     };
 }
