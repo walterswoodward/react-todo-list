@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
 import TodosList from "./components/TodosList.js";
 
 class App extends Component {

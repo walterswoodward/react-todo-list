@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Reducer } from './reducers'
 import logger from 'redux-logger';
+import 'bootstrap/dist/css/bootstrap.css';
 
 // TODO: Move this to a separate file src/store.js
 // const store = createStore(Reducer, applyMiddleware(thunk));

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addTodo, getTodos, toggleFetching } from '../actions';
+import { Container, Row, Form, Table, Button, Label, Input, InputGroup, FormGroup, Tit} from 'reactstrap';
+
 class TodosList extends Component {
     constructor(props) {
         super(props);
@@ -30,11 +32,37 @@ class TodosList extends Component {
         this.props.toggleFetching();
     }
 
+    renderList = () => {
+        if (this.props.todos.length > 0) {
+            return (<Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Descriptions</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.listTodos(this.props.todos)}
+                        </tbody>
+                    </Table>)
+        } else {
+            return (<div className="alert alert-info d-flex justify-content-center w-100">
+                You don't have any todos yet. Add one using the form above.
+            </div>)
+        }
+    }
+
     listTodos = (todos) => {
         let list = Object.keys(todos).map((todo, index) => (
-            <div className='card__wrap' key={index}>
-                {todos[index]['Description'] == '' ? 'empty' : todos[index]['Description']}
-            </div>
+            <tr key={index}>
+                <th scope="row">{index}</th>
+                <td>{todos[index]['Description'] == '' ? 'empty' : todos[index]['Description']}</td>
+                <td>
+                    <Button color="success" className="mr-2">Edit</Button>
+                    <Button color="danger">Delete</Button>
+                </td>
+            </tr>
         ));
         return list;
     };
@@ -48,14 +76,22 @@ class TodosList extends Component {
     render() {
         return (
             this.props.isFetching ? <div>FETCHING</div> : 
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="description">Add a todo:</label>
-                    <input id="description" type="text" name="description" value={this.state.description} onChange={this.handleChange} />
-                    <button type="submit">Add</button>
-                    {this.listTodos(this.props.todos)}
-                </form>
-            </div>
+            <Container>
+                <Row>
+                    <Form onSubmit={this.handleSubmit}>
+                        <FormGroup>
+                            <label htmlFor="description">Add a todo:</label>
+                            <InputGroup>
+                                <Input id="description" type="text" name="description" value={this.state.description} onChange={this.handleChange} />
+                            </InputGroup>
+                            <Button className="my-2" type="submit" color="info">Add</Button>
+                        </FormGroup>
+                    </Form>
+                </Row>
+                <Row>
+                    {this.renderList()}
+                </Row>
+            </Container>
         )
     }
 }
