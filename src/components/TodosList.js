@@ -40,6 +40,7 @@ class TodosList extends Component {
     };
 
     componentDidMount () {
+        // TODO: Find a way to do this that does not pollute every action call
         this.props.toggleFetching();
         this.props.getTodos();
         this.props.toggleFetching();
