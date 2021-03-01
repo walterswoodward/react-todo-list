@@ -66,4 +66,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { getAll, addTodo, getTodos, toggleFetching })(TodosList);
+export default connect(mapStateToProps, { addTodo, getTodos, toggleFetching })(TodosList);
