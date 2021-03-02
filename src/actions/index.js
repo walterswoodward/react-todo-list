@@ -27,7 +27,3 @@ export const getTodos = () => dispatch => {
             dispatch({ type: GET_TODOS, payload: results });
         });
 };
-
-export const toggleFetching = () => dispatch => {
-    dispatch({type: TOGGLE_FETCHING})
-}

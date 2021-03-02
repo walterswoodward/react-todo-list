@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, getTodos, toggleFetching } from '../actions';
-import { Container, Row, Form, Table, Button, Label, Input, InputGroup, FormGroup, Tit} from 'reactstrap';
+import { addTodo, getTodos } from '../actions';
+import { Container, Row, Form, Table, Button, Input, InputGroup, FormGroup} from 'reactstrap';
 
 class TodosList extends Component {
     constructor(props) {
@@ -24,16 +24,15 @@ class TodosList extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.toggleFetching();
         this.props.addTodo(this.state.description);
         this.setState({
             description: ''
-        })
-        this.props.toggleFetching();
+        });
     }
 
     renderList = () => {
         if (this.props.todos.length > 0) {
+            // TODO: Make these headers clickable for ascending + descending order
             return (<Table striped bordered hover>
                         <thead>
                             <tr>
@@ -54,7 +53,7 @@ class TodosList extends Component {
     }
 
     listTodos = (todos) => {
-        let list = Object.keys(todos).map((todo, index) => (
+        let list = Object.keys(todos).map((_todo, index) => (
             <tr key={index}>
                 <th scope="row">{index}</th>
                 <td>{todos[index]['Description'] == '' ? 'empty' : todos[index]['Description']}</td>
@@ -68,10 +67,7 @@ class TodosList extends Component {
     };
 
     componentDidMount () {
-        // TODO: Find a way to do this that does not pollute every action call
-        this.props.toggleFetching();
         this.props.getTodos();
-        this.props.toggleFetching();
     }
     render() {
         return (
@@ -80,9 +76,8 @@ class TodosList extends Component {
                 <Row>
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
-                            <label htmlFor="description">Add a todo:</label>
                             <InputGroup>
-                                <Input id="description" type="text" name="description" value={this.state.description} onChange={this.handleChange} />
+                                <Input className="mt-2" id="description" type="text" name="description" value={this.state.description} onChange={this.handleChange} />
                             </InputGroup>
                             <Button className="my-2" type="submit" color="info">Add</Button>
                         </FormGroup>
@@ -98,9 +93,8 @@ class TodosList extends Component {
 
 function mapStateToProps(state) {
     return {
-        todos: state.todos,
-        isFetching: state.isFetching
+        todos: state.todos
     };
 }
 
-export default connect(mapStateToProps, { addTodo, getTodos, toggleFetching })(TodosList);
+export default connect(mapStateToProps, { addTodo, getTodos })(TodosList);

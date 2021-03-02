@@ -17,7 +17,7 @@ const composeEnhancers =
         : compose;
 const store = createStore(Reducer, composeEnhancers(applyMiddleware(thunk, logger)));
 
-import TodosList from './components/TodosList'
+import App from './App'
 
 // Remove console log in production mode
 if (process.env.NODE_ENV === "production") {
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === "production") {
 
 ReactDOM.render(
     <Provider store={store}>
-        <TodosList />
+        <App />
     </Provider>,
     document.getElementById('root')
 )

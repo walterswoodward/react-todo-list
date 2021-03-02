@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import TodosList from "./components/TodosList.js";
+import Home from "./components/Home.js";
 
 class App extends Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class App extends Component {
         return (
             <Router>
             <Switch>
-                <Route path="/" component={TodosList} exact/>
+                <Route path="/" component={Home} exact/>
             </Switch>
             </Router>
         );
