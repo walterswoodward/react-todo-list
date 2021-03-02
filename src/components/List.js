@@ -1,17 +1,17 @@
 import React, { Component, Fragment } from 'react';
 
 import NavBar from "./NavBar.js";
-import TodosList from "./TodosList.js";
+import ListBody from "./List/Body.js";
 
-class Home extends Component {
+class List extends Component {
     render() {
         return (
             <Fragment>
                 <NavBar/>
-                <TodosList/>
+                <ListBody history={this.props.history}/>
             </Fragment>
         )
     }
 }
 
-export default Home;
+export default List;

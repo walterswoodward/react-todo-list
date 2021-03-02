@@ -1,24 +1,47 @@
 import {
     GET_TODOS,
     ADD_TODO,
-    DELETE_TODO
+    DELETE_TODO,
+    UPDATE_TODO,
+    ADD_REDIRECT,
+    TOGGLE_EDITING
 } from "../actions";
 
 const initialState = {
     todos: [],
-    error: null
+    error: null,
+    redirect: ''
 };
 
-function insertItem(array, item) {
+// insertTodo :: ([Model?], item) -> [ ]
+// item = any valid javascript array type
+function insertTodo(array, item) {
     let copy = array.slice();
     copy.push(item);
     return copy;
 }
-  
-function removeItem(array, id) {
+
+// removeTodo :: ([Model], numeric) -> [ ]
+// TodoItemModel = see backend repository `todolist-mysql-go`
+function removeTodo(array, id) {
     let copy = array.slice();
-    return copy.filter((todo, index) => {
+    return copy.filter((_value, index) => {
         return copy[index].Id != id;
+    });
+}
+
+// updateTodo :: ([Model], item) -> [ ]
+// TodoItemModel = see backend repository `todolist-mysql-go`
+// item = any valid javascript array type
+function updateTodo(array, payload) {
+    let copy = array.slice();
+    return copy.map((todo, index) => {
+        if (todo['Id'] == payload.id) {
+            todo['Description'] = payload.description;
+            return todo;
+        } else {
+            return todo;
+        }
     });
 }
 
@@ -27,9 +50,18 @@ export const Reducer = (state = initialState, action) => {
         case GET_TODOS:
             return { ...state, todos: action.payload };
         case ADD_TODO:
-            return { ...state, todos: insertItem(state.todos, action.payload)};
+            return { ...state, todos: insertTodo(state.todos, action.payload)};
+        case UPDATE_TODO:
+            console.log(state.todos);
+            console.log(action.payload);
+            console.log(updateTodo(state.todos, action.payload));
+            return { ...state, todos: updateTodo(state.todos, action.payload)};
         case DELETE_TODO:
-            return { ...state, todos: removeItem(state.todos, action.payload.id)};
+            return { ...state, todos: removeTodo(state.todos, action.payload.id)};
+        case ADD_REDIRECT:
+            return {...state, redirect: action.payload.redirect};
+        case TOGGLE_EDITING:
+            return {...state, editing: action.payload.todo};
         default:
             return state;
     }

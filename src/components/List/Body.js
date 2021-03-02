@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, getTodos, deleteTodo } from '../actions';
+import { addTodo, getTodos, deleteTodo, updateTodo, addRedirect, toggleEditing } from '../../actions';
 import { Container, Row, Form, Table, Button, Input, InputGroup, FormGroup} from 'reactstrap';
 
-class TodosList extends Component {
+class ListBody extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            description: ''
+            description: '',
+            editValue: (this.props.editing ? this.props.editing.description : '')
         };
 
         // These are necessary in order to access/change state from within
@@ -35,13 +36,26 @@ class TodosList extends Component {
         this.props.deleteTodo(id);
     }
 
+    handleEdit = (event, todo) => {
+        event.preventDefault();
+        this.setState({
+            editValue: todo.description
+        });
+        this.props.toggleEditing(todo);
+    }
+
+    handleUpdate = (event, id) => {
+        event.preventDefault();
+        this.props.updateTodo(this.state.editValue, id);
+        this.props.toggleEditing(false);
+    }
+
     renderList = () => {
         if (this.props.todos.length > 0) {
             // TODO: Make these headers clickable for ascending + descending order
             return (<Table striped bordered hover>
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Descriptions</th>
                                 <th>Actions</th>
                             </tr>
@@ -60,23 +74,55 @@ class TodosList extends Component {
     listTodos = (todos) => {
         let list = Object.keys(todos).map((_todo, index) => (
             <tr key={index}>
-                <th scope="row">{todos[index]['Id']}</th>
+                {this.props.editing && this.props.editing.id == todos[index]['Id']?<Fragment>
+                    <td>
+                        <Form onSubmit={(event) => {this.handleUpdate(event, todos[index]['Id'])}}>
+                            <Input id="editValue" name="editValue" value={this.state.editValue} 
+                                onChange={this.handleChange}
+                                autoFocus>
+                            </Input>
+                        </Form>
+                    </td>
+                    <td>
+                        <Button 
+                            type="button"
+                            className="text-light btn btn-primary mr-2"
+                            color="success"
+                            onClick={(event) => {this.handleUpdate(event, todos[index]['Id'])}}
+                        >Save</Button>
+                        <Button 
+                            type="button" 
+                            color="danger" 
+                            onClick={(event) => {this.handleDelete(event, todos[index]['Id'])}}
+                        >Delete</Button>
+                    </td>
+                </Fragment>
+                :<Fragment>
                 <td>{todos[index]['Description'] == '' ? 'empty' : todos[index]['Description']}</td>
                 <td>
-                    <Button type="button" color="success" className="mr-2">Edit</Button>
+                    <Button 
+                        type="button"
+                        className="text-light btn btn-primary mr-2"
+                        color="primary"
+                        onClick={(event) => {this.handleEdit(event, {id: todos[index]['Id'], description: todos[index]['Description']})}}>Edit</Button>
+
                     <Button type="button" color="danger" onClick={(event) => {this.handleDelete(event, todos[index]['Id'])}}>Delete</Button>
                 </td>
+                </Fragment>}
             </tr>
         ));
         return list;
     };
 
     componentDidMount () {
+        if(this.props.history.location.pathname == this.props.redirect) {
+            this.props.addRedirect('');
+            console.log('MATCH FOUND')
+        };
         this.props.getTodos();
     }
     render() {
         return (
-            this.props.isFetching ? <div>FETCHING</div> : 
             <Container>
                 <Row>
                     <Form onSubmit={this.handleSubmit}>
@@ -98,8 +144,10 @@ class TodosList extends Component {
 
 function mapStateToProps(state) {
     return {
-        todos: state.todos
+        todos: state.todos,
+        redirect: state.redirect,
+        editing: state.editing
     };
 }
 
-export default connect(mapStateToProps, { addTodo, getTodos, deleteTodo })(TodosList);
+export default connect(mapStateToProps, { addTodo, getTodos, deleteTodo, updateTodo, addRedirect, toggleEditing })(ListBody);
