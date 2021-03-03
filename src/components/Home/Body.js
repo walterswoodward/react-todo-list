@@ -38,10 +38,13 @@ class HomeBody extends Component {
         return (
             <Container>
                 <Row>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form className="w-100" onSubmit={this.handleSubmit}>
                         <FormGroup>
                             <InputGroup>
-                                <Input className="mt-2" id="description" type="text" name="description" value={this.state.description} onChange={this.handleChange} autoFocus/>
+                                <Input className="mt-2" id="description" type="text" name="description" 
+                                    value={this.state.description} 
+                                    onChange={this.handleChange} 
+                                    placeholder="Add a todo here..." autoFocus/>
                             </InputGroup>
                             <Button className="my-2" type="submit" color="info">Add</Button>
                         </FormGroup>

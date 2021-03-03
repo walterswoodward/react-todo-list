@@ -45,7 +45,7 @@ class TodoList extends Component {
                     </Table>)
         } else {
             return (<div className="alert alert-info d-flex justify-content-center w-100">
-                You don't have any todos yet. Add one using the form above.
+                You don't have any todos yet. Add one above!
             </div>)
         }
     }
