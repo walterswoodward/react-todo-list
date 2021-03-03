@@ -33,7 +33,7 @@ class TodoEditable extends Component {
         return (
             <Fragment>
                 <td>
-                    <Form onSubmit={(event) => {this.handleUpdate(event, todos[index]['Id'])}}>
+                    <Form className="my-1" onSubmit={(event) => {this.handleUpdate(event, todos[index]['Id'])}}>
                         <Input id="editValue" name="editValue" value={this.state.editValue} onChange={this.handleChange}
                             autoFocus>
                         </Input>
@@ -42,19 +42,20 @@ class TodoEditable extends Component {
                 <td style={{width:'300px'}}>
                     <Button 
                         type="button"
-                        className="text-light btn btn-primary mr-2"
+                        className="text-light btn btn-primary mr-2 my-1"
                         color="success"
                         onClick={(event) => {this.handleUpdate(event, todos[index]['Id'])}}
                     >Save</Button>
                     <Button 
                         type="button"
-                        className="text-light btn btn-primary mr-2"
+                        className="text-light btn btn-primary mr-2 my-1"
                         color="primary"
                         onClick={(event) => {handleComplete(event, todos[index])}}
                     >Complete</Button>
                     <Button 
-                        type="button" 
-                        color="danger" 
+                        type="button"
+                        className="my-1"
+                        color="danger"
                         onClick={(event) => {handleDelete(event, todos[index]['Id'])}}
                     >Delete</Button>
                 </td>
