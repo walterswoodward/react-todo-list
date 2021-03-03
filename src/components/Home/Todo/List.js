@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import Editable from "./Editable.js";
 import TodoItem from "./Item.js";
 import { Table } from 'reactstrap';
-import { deleteTodo } from '../../../actions';
+import { deleteTodo, updateCompleted } from '../../../actions';
 import { connect } from 'react-redux';
 
 class TodoList extends Component {
     handleDelete = (event, id) => {
         event.preventDefault();
         this.props.deleteTodo(id);
+    }
+    handleComplete = (event, todo) => {
+        console.log("From handleComplete: ", todo);
+        event.preventDefault();
+        this.props.updateCompleted(true, todo['Id']);
     }
 
     listTodos = () => {
@@ -19,11 +24,13 @@ class TodoList extends Component {
                 <Editable
                     index={index}
                     handleDelete={this.handleDelete}
+                    handleComplete={this.handleComplete}
                 /> 
                 : 
                 <TodoItem
                     index={index}
                     handleDelete={this.handleDelete}
+                    handleComplete={this.handleComplete}
                 />}
             </tr>
         ));
@@ -58,4 +65,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { deleteTodo })(TodoList);
+export default connect(mapStateToProps, { deleteTodo, updateCompleted })(TodoList);

@@ -3,7 +3,8 @@ import {
     ADD_TODO,
     DELETE_TODO,
     UPDATE_TODO,
-    ADD_REDIRECT,
+    UPDATE_COMPLETED,
+    REDIRECT,
     TOGGLE_EDITING
 } from "../actions";
 
@@ -53,13 +54,12 @@ export const Reducer = (state = initialState, action) => {
         case ADD_TODO:
             return { ...state, todos: insertTodo(state.todos, action.payload)};
         case UPDATE_TODO:
-            console.log(state.todos);
-            console.log(action.payload);
-            console.log(updateTodo(state.todos, action.payload));
             return { ...state, todos: updateTodo(state.todos, action.payload)};
+        case UPDATE_COMPLETED:
+            return { ...state, todos: removeTodo(state.todos, action.payload.id)};
         case DELETE_TODO:
             return { ...state, todos: removeTodo(state.todos, action.payload.id)};
-        case ADD_REDIRECT:
+        case REDIRECT:
             return {...state, redirect: action.payload.redirect};
         case TOGGLE_EDITING:
             return {...state, editing: action.payload.todo};

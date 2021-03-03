@@ -28,6 +28,7 @@ class TodoEditable extends Component {
             todos, // redux
             index, // parent
             handleDelete, // parent
+            handleComplete // parent
         } = this.props;
         return (
             <Fragment>
@@ -45,6 +46,12 @@ class TodoEditable extends Component {
                         color="success"
                         onClick={(event) => {this.handleUpdate(event, todos[index]['Id'])}}
                     >Save</Button>
+                    <Button 
+                        type="button"
+                        className="text-light btn btn-primary mr-2"
+                        color="primary"
+                        onClick={(event) => {handleComplete(event, todos[index])}}
+                    >Complete</Button>
                     <Button 
                         type="button" 
                         color="danger" 

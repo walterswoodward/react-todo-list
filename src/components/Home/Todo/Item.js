@@ -16,7 +16,8 @@ class TodoItem extends Component {
         const {
             todos, // redux
             index, // parent
-            handleDelete // parent
+            handleDelete, // parent
+            handleComplete // parent
         } = this.props;
         return (
             <Fragment>
@@ -25,11 +26,17 @@ class TodoItem extends Component {
                     <Button 
                         type="button"
                         className="text-light btn btn-primary mr-2"
-                        color="primary"
+                        color="success"
                         onClick={(event) => {
                             this.handleEdit(event, {id: todos[index]['Id'],
                             description: todos[index]['Description']
                         })}}>Edit</Button>
+                    <Button 
+                        type="button"
+                        className="text-light btn btn-primary mr-2"
+                        color="primary"
+                        onClick={(event) => {handleComplete(event, todos[index])}}
+                    >Complete</Button>
                     <Button type="button" color="danger" onClick={(event) => {handleDelete(event, todos[index]['Id'])}}>Delete</Button>
                 </td>
             </Fragment>

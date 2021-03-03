@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, getTodos, addRedirect } from '../../actions';
+import { addTodo, getTodos, redirect } from '../../actions';
 import { Container, Row, Form, Button, Input, InputGroup, FormGroup} from 'reactstrap';
 
 import List from "./Todo/List.js";
@@ -30,7 +30,7 @@ class HomeBody extends Component {
 
     componentDidMount () {
         if(this.props.history.location.pathname == this.props.redirect) {
-            this.props.addRedirect('');
+            this.props.redirect('');
         };
         this.props.getTodos();
     }
@@ -44,7 +44,7 @@ class HomeBody extends Component {
                                 <Input className="mt-2" id="description" type="text" name="description" 
                                     value={this.state.description} 
                                     onChange={this.handleChange} 
-                                    placeholder="Add a todo here..." autoFocus/>
+                                    placeholder="Add a todo here..." autoFocus required/>
                             </InputGroup>
                             <Button className="my-2" type="submit" color="info">Add</Button>
                         </FormGroup>
@@ -68,4 +68,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { addTodo, getTodos, addRedirect })(HomeBody);
+export default connect(mapStateToProps, { addTodo, getTodos, redirect })(HomeBody);
