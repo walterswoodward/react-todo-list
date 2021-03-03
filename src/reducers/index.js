@@ -10,7 +10,8 @@ import {
 const initialState = {
     todos: [],
     error: null,
-    redirect: ''
+    redirect: '',
+    editing: null
 };
 
 // insertTodo :: ([Model?], item) -> [ ]

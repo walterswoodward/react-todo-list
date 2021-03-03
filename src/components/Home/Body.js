@@ -1,9 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addTodo, getTodos, deleteTodo, updateTodo, addRedirect, toggleEditing } from '../../actions';
 import { Container, Row, Form, Table, Button, Input, InputGroup, FormGroup} from 'reactstrap';
 
-class ListBody extends Component {
+import Editable from "./Todo/Editable.js";
+import TodoItem from "./Todo/Item.js";
+
+class HomeBody extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -74,41 +77,22 @@ class ListBody extends Component {
     listTodos = (todos) => {
         let list = Object.keys(todos).map((_todo, index) => (
             <tr key={index}>
-                {this.props.editing && this.props.editing.id == todos[index]['Id']?<Fragment>
-                    <td>
-                        <Form onSubmit={(event) => {this.handleUpdate(event, todos[index]['Id'])}}>
-                            <Input id="editValue" name="editValue" value={this.state.editValue} 
-                                onChange={this.handleChange}
-                                autoFocus>
-                            </Input>
-                        </Form>
-                    </td>
-                    <td>
-                        <Button 
-                            type="button"
-                            className="text-light btn btn-primary mr-2"
-                            color="success"
-                            onClick={(event) => {this.handleUpdate(event, todos[index]['Id'])}}
-                        >Save</Button>
-                        <Button 
-                            type="button" 
-                            color="danger" 
-                            onClick={(event) => {this.handleDelete(event, todos[index]['Id'])}}
-                        >Delete</Button>
-                    </td>
-                </Fragment>
-                :<Fragment>
-                <td>{todos[index]['Description'] == '' ? 'empty' : todos[index]['Description']}</td>
-                <td>
-                    <Button 
-                        type="button"
-                        className="text-light btn btn-primary mr-2"
-                        color="primary"
-                        onClick={(event) => {this.handleEdit(event, {id: todos[index]['Id'], description: todos[index]['Description']})}}>Edit</Button>
-
-                    <Button type="button" color="danger" onClick={(event) => {this.handleDelete(event, todos[index]['Id'])}}>Delete</Button>
-                </td>
-                </Fragment>}
+                {this.props.editing && (this.props.editing.id == todos[index]['Id'])? 
+                <Editable 
+                    todos={todos}
+                    index={index}
+                    handleUpdate={this.handleUpdate}
+                    handleDelete={this.handleDelete}
+                    handleChange={this.handleChange}
+                    editValue={this.state.editValue}
+                /> 
+                : 
+                <TodoItem
+                    todos={todos}
+                    index={index}
+                    handleEdit={this.handleEdit}
+                    handleDelete={this.handleDelete}
+                />}
             </tr>
         ));
         return list;
@@ -150,4 +134,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { addTodo, getTodos, deleteTodo, updateTodo, addRedirect, toggleEditing })(ListBody);
+export default connect(mapStateToProps, { addTodo, getTodos, deleteTodo, updateTodo, addRedirect, toggleEditing })(HomeBody);
