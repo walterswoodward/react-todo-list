@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, getTodos, redirect } from '../../actions';
+import { addTodo, getTodos } from '../../actions';
 import { Container, Row, Form, Button, Input, InputGroup, FormGroup} from 'reactstrap';
 
-import List from "./Todo/List.js";
+import List from "./List.js";
 
 class HomeBody extends Component {
     constructor(props) {
@@ -29,9 +29,6 @@ class HomeBody extends Component {
     }
 
     componentDidMount () {
-        if(this.props.history.location.pathname == this.props.redirect) {
-            this.props.redirect('');
-        };
         this.props.getTodos();
     }
     render() {
@@ -54,7 +51,6 @@ class HomeBody extends Component {
                     <List
                         handleEdit={this.handleEdit}
                         editValue={this.state.editValue}
-                        handleChange={this.handleChange}
                     />
                 </Row>
             </Container>
@@ -63,9 +59,7 @@ class HomeBody extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        redirect: state.redirect
-    };
+    return { };
 }
 
-export default connect(mapStateToProps, { addTodo, getTodos, redirect })(HomeBody);
+export default connect(mapStateToProps, { addTodo, getTodos })(HomeBody);

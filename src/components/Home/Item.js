@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { toggleEditing } from '../../../actions';
+import { toggleEditing } from '../../actions';
 import { Button } from 'reactstrap';
 
 class TodoItem extends Component {

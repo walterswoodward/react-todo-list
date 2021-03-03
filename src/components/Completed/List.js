@@ -1,43 +1,36 @@
 import React, { Component } from 'react';
-import Editable from "./Editable.js";
 import TodoItem from "./Item.js";
 import { Table } from 'reactstrap';
-import { deleteTodo, updateCompleted } from '../../../actions';
+import { deleteCompleted, restoreTodo } from '../../actions';
 import { connect } from 'react-redux';
 
 class TodoList extends Component {
     handleDelete = (event, id) => {
         event.preventDefault();
-        this.props.deleteTodo(id);
+        this.props.deleteCompleted(id);
     }
-    handleComplete = (event, todo) => {
-        console.log("From handleComplete: ", todo);
+    handleRestore = (event, todo) => {
+        console.log("From handleRestore: ", todo);
         event.preventDefault();
-        this.props.updateCompleted(true, todo['Id']);
+        this.props.restoreTodo(false, todo['Id']);
     }
 
     listTodos = () => {
-        const { todos } = this.props;
-        let list = Object.keys(todos).map((_todo, index) => (
+        const { completed } = this.props;
+        let list = Object.keys(completed).map((_todo, index) => (
             <tr key={index}>
-                {this.props.editing && (this.props.editing.id == todos[index]['Id'])? 
-                <Editable
-                    index={index}
-                    handleDelete={this.handleDelete}
-                    handleComplete={this.handleComplete}
-                /> 
-                : 
                 <TodoItem
                     index={index}
                     handleDelete={this.handleDelete}
-                    handleComplete={this.handleComplete}
-                />}
+                    handleRestore={this.handleRestore}
+                    completed={completed}
+                />
             </tr>
         ));
         return list;
     };
     render() {
-        if (this.props.todos.length > 0) {
+        if (this.props.completed.length > 0) {
             // TODO: Make these headers clickable for ascending + descending order
             return (<Table striped bordered hover>
                         <thead>
@@ -52,7 +45,7 @@ class TodoList extends Component {
                     </Table>)
         } else {
             return (<div className="alert alert-info d-flex justify-content-center w-100">
-                You don't have any todos yet. Add one above!
+                No completed todos found
             </div>)
         }
     }
@@ -60,9 +53,8 @@ class TodoList extends Component {
 
 function mapStateToProps(state) {
     return {
-        todos: state.todos,
-        editing: state.editing
+        completed: state.completed
     };
 }
 
-export default connect(mapStateToProps, { deleteTodo, updateCompleted })(TodoList);
+export default connect(mapStateToProps, { deleteCompleted, restoreTodo })(TodoList);

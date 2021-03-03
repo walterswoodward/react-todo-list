@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { updateTodo, toggleEditing } from '../../../actions';
+import { updateTodo, toggleEditing } from '../../actions';
 import { Form, Button, Input } from 'reactstrap';
 
 class TodoEditable extends Component {

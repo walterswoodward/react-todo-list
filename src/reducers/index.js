@@ -1,15 +1,19 @@
 import {
     GET_TODOS,
+    GET_COMPLETED,
     ADD_TODO,
     DELETE_TODO,
+    DELETE_COMPLETED,
     UPDATE_TODO,
     UPDATE_COMPLETED,
+    RESTORE_TODO,
     REDIRECT,
     TOGGLE_EDITING
 } from "../actions";
 
 const initialState = {
-    todos: [],
+    todos: [ ],
+    completed: [ ],
     error: null,
     redirect: '',
     editing: null
@@ -51,14 +55,20 @@ export const Reducer = (state = initialState, action) => {
     switch(action.type) {
         case GET_TODOS:
             return { ...state, todos: action.payload };
+        case GET_COMPLETED:
+            return { ...state, completed: action.payload };
         case ADD_TODO:
             return { ...state, todos: insertTodo(state.todos, action.payload)};
         case UPDATE_TODO:
             return { ...state, todos: updateTodo(state.todos, action.payload)};
         case UPDATE_COMPLETED:
             return { ...state, todos: removeTodo(state.todos, action.payload.id)};
+        case RESTORE_TODO:
+            return { ...state, completed: removeTodo(state.completed, action.payload.id)};
         case DELETE_TODO:
             return { ...state, todos: removeTodo(state.todos, action.payload.id)};
+        case DELETE_COMPLETED:
+            return { ...state, completed: removeTodo(state.completed, action.payload.id)};
         case REDIRECT:
             return {...state, redirect: action.payload.redirect};
         case TOGGLE_EDITING:
