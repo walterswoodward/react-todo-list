@@ -1,9 +1,23 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { toggleEditing } from '../../../actions';
 import { Button } from 'reactstrap';
 
 class TodoItem extends Component {
+    handleEdit = (event, todo) => {
+        event.preventDefault();
+        this.setState({
+            editValue: todo.description
+        });
+        this.props.toggleEditing(todo);
+    }
+
     render() {
-        const {todos, index, handleEdit, handleDelete} = this.props;
+        const {
+            todos, // redux
+            index, // parent
+            handleDelete // parent
+        } = this.props;
         return (
             <Fragment>
                 <td>{todos[index]['Description'] == '' ? 'empty' : todos[index]['Description']}</td>
@@ -13,7 +27,7 @@ class TodoItem extends Component {
                         className="text-light btn btn-primary mr-2"
                         color="primary"
                         onClick={(event) => {
-                            handleEdit(event, {id: todos[index]['Id'],
+                            this.handleEdit(event, {id: todos[index]['Id'],
                             description: todos[index]['Description']
                         })}}>Edit</Button>
                     <Button type="button" color="danger" onClick={(event) => {handleDelete(event, todos[index]['Id'])}}>Delete</Button>
@@ -23,4 +37,9 @@ class TodoItem extends Component {
     }
 }
 
-export default TodoItem;
+function mapStateToProps(state) {
+    return { todos: state.todos };
+}
+
+export default connect(mapStateToProps, { toggleEditing })(TodoItem);
+
