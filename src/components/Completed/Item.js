@@ -12,14 +12,14 @@ class CompletedItem extends Component {
         return (
             <Fragment>
                 <td>{completed[index]['Description'] == '' ? 'empty' : completed[index]['Description']}</td>
-                <td>
+                <td style={{width:'200px'}}>
                     <Button 
                         type="button"
-                        className="text-light btn btn-primary mr-2"
+                        className="mr-2 my-1"
                         color="primary"
                         onClick={(event) => {handleRestore(event, completed[index])}}
                     >Restore</Button>
-                    <Button type="button" color="danger" onClick={(event) => {handleDelete(event, completed[index]['Id'])}}>Delete</Button>
+                    <Button type="button" className="my-1" color="danger" onClick={(event) => {handleDelete(event, completed[index]['Id'])}}>Delete</Button>
                 </td>
             </Fragment>
         )

@@ -22,22 +22,23 @@ class TodoItem extends Component {
         return (
             <Fragment>
                 <td>{todos[index]['Description'] == '' ? 'empty' : todos[index]['Description']}</td>
-                <td>
+                <td style={{width:'300px'}}>
                     <Button 
                         type="button"
-                        className="text-light btn btn-primary mr-2"
+                        className="mr-2 my-1"
                         color="success"
+                        style={{width:'61px'}}
                         onClick={(event) => {
                             this.handleEdit(event, {id: todos[index]['Id'],
                             description: todos[index]['Description']
                         })}}>Edit</Button>
                     <Button 
                         type="button"
-                        className="text-light btn btn-primary mr-2"
+                        className="mr-2 my-1"
                         color="primary"
                         onClick={(event) => {handleComplete(event, todos[index])}}
                     >Complete</Button>
-                    <Button type="button" color="danger" onClick={(event) => {handleDelete(event, todos[index]['Id'])}}>Delete</Button>
+                    <Button color="danger" className="my-1" onClick={(event) => {handleDelete(event, todos[index]['Id'])}}>Delete</Button>
                 </td>
             </Fragment>
         )

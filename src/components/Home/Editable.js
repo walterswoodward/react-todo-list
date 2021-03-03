@@ -39,7 +39,7 @@ class TodoEditable extends Component {
                         </Input>
                     </Form>
                 </td>
-                <td>
+                <td style={{width:'300px'}}>
                     <Button 
                         type="button"
                         className="text-light btn btn-primary mr-2"
